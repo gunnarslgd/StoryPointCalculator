@@ -32,7 +32,7 @@ namespace StoryPointCalculator.Models
 
 		public string Name { get; set; }
 
-		public StoryPoint CuStoryPoint => Points == null || string.IsNullOrEmpty(Name) ? new StoryPoint() : Points.TryGetValue(Name, out var point) ? point : new StoryPoint();
+		public StoryPoint CurrentStoryPoint => Points == null || string.IsNullOrEmpty(Name) ? new StoryPoint() : Points.TryGetValue(Name, out var point) ? point : new StoryPoint();
 
 		public void StartOver()
 		{
@@ -89,6 +89,8 @@ namespace StoryPointCalculator.Models
 		{
 			var total = allPoints.Sum();
 			var average = total / Points.Count;
+
+			if (allPoints.Count <= 3) return average;
 
 			if (Math.Abs(allPoints[0] - average) > MaxDifference)
 			{

@@ -1,7 +1,7 @@
 ﻿using System.Web;
 using System.Web.Optimization;
 
-namespace StoryPointCalculator2
+namespace StoryPointCalculator
 {
 	public class BundleConfig
 	{
@@ -21,6 +21,12 @@ namespace StoryPointCalculator2
 
 			bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
 					  "~/Scripts/bootstrap.js"));
+
+			bundles.Add(new ScriptBundle("~/bundles/main").Include(
+				"~/Scripts/main.js"));
+
+			bundles.Add(new ScriptBundle("~/bundles/signalR").Include(
+				"~/Scripts/jquery.signalR-2.2.2.min.js"));
 
 			bundles.Add(new StyleBundle("~/Content/css").Include(
 					  "~/Content/bootstrap.css",

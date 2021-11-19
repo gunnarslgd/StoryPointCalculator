@@ -1,29 +1,129 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+@using StoryPointCalculator.Models
+@model StoryPointCalculator.Models.Story
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
+@* <div class="jumbotron"> *@
+@*     <h1>ASP.NET</h1> *@
+@*     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p> *@
+@*     <p> *@
+@*         <a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a> *@
+@*     </p> *@
+@* </div> *@
 
 <div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
+    <div class="col-md-8">
+        <h2>Story</h2>
         <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
+            A new story to be estimated by the team.
         </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+</div>
+
+<hr/>
+
+<div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="row">
+                <div class="col-md-6">
+                    <input type="text" class="form-control" id="judge" placeholder="your name">
+                </div>
+                <div class="col-md-6">
+                    <p>
+                        <button class="btn btn-primary btn-default" onclick="joinEstimation()">Join Estimation</button>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="pull-right">
+                <button class="btn btn-primary btn-default" onclick="showEstimations()">@(Model.Showing ? "Hide Votes" : "Show Votes")</button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="pull-right">
+                <button class="btn btn-primary btn-danger" onclick="clearAllEstimations()">Clear Votes</button>
+            </div>
+        </div>
+        <div class="col-md-2">
+            <div class="pull-right">
+                <button type="button" class="btn btn-default" aria-label="Left Align" onclick="showPanel()">
+                    <span class="glyphicon glyphicon-menu-down" aria-hidden="true" id="collapse-button"></span>
+                </button>
+            </div>
+        </div>
+        <hr/>
     </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
+
+    <div id="pointing-panel">
+        <div class="row">
+            <div class="col-md-10">
+                <div class="slidecontainer">
+                    <label>Complexity @(StoryPoint.GetScoreExplanation(Model.CuStoryPoint.Complexity))</label>
+                    <input type="range" class="slider" min="0" max="10" value="@Model.CuStoryPoint.Complexity" id="complexity">
+                </div>
+                <div class="slidecontainer">
+                    <label>Effort @(StoryPoint.GetScoreExplanation(Model.CuStoryPoint.Effort))</label>
+                    <input type="range" class="slider" min="0" max="10" value="@Model.CuStoryPoint.Effort" id="effort">
+                </div>
+                <div class="slidecontainer">
+                    <label>Uncertainty @(StoryPoint.GetScoreExplanation(Model.CuStoryPoint.Uncertainty))</label>
+                    <input type="range" class="slider" min="0" max="10" value="@Model.CuStoryPoint.Uncertainty" id="uncertainty">
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-primary btn-default" onclick="submit()">Submit</button>
+        </div>
     </div>
+</div>
+
+<hr/>
+
+<div>
+    <div class="row panel-group">
+        <div class="col-md-8">
+            <h2>Estimates </h2>
+        </div>
+    </div>
+    @if (Model.PointsWithAverage.Count > 1)
+    {
+        foreach (var pair in Model.PointsWithAverage)
+        {
+            <div class="row">
+                <div class="col-md-2">
+                    <h3 class="@(pair.Value.IsEmpty ? "bg-danger" : "bg-success")">@pair.Key</h3>
+                </div>
+
+                <div class="col-md-1">
+                    <div class="slidecontainer">
+                        <label>Point</label>
+                        <h2 class="score">@(Model.Showing ? pair.Value.Point.ToString() : "?")</h2>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="slidecontainer">
+                        <label>Complexity @(Model.Showing ? StoryPoint.GetScoreExplanation(pair.Value.Complexity) : "?")</label>
+                        <input type="range" class="slider" min="0" max="10" value="@(Model.Showing ? pair.Value.Complexity.ToString() : "0")" disabled>
+                    </div>
+                </div>
+
+                <div class="col-md-3">
+                    <div class="slidecontainer">
+                        <label>Effort @(Model.Showing ? StoryPoint.GetScoreExplanation(pair.Value.Effort) : "?")</label>
+                        <input type="range" class="slider" min="0" max="10" value="@(Model.Showing ? pair.Value.Effort.ToString() : "0")" disabled>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="slidecontainer">
+                        <label>Uncertainty @(Model.Showing ? StoryPoint.GetScoreExplanation(pair.Value.Uncertainty) : "?")</label>
+                        <input type="range" class="slider" min="0" max="10" value="@(Model.Showing ? pair.Value.Uncertainty.ToString() : "0")" disabled>
+                    </div>
+                </div>
+            </div>
+        }
+    }
 </div>

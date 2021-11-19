@@ -40,7 +40,7 @@ namespace StoryPointCalculator.Controllers
 		{
 			Story.NewPoint(name, story);
 
-			return Json(true);
+			return View("index", Story);
 		}
 
 		public ActionResult ShowEstimations()

@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'StoryPointCalculator'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_492274852D594A7B968F3CEC13D1E3E6 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_E44501E549A743CCAFAA9F353F5EE730 }}
           package: .

@@ -56,12 +56,16 @@ var submit = () => {
 }
 
 var clearAllEstimations = () => {
+	var name = $( "#judge" ).val();
+
 	$.get( `/home/ClearAllEstimations`, () => {
 		chat.server.send(name, "ClearAllEstimations");
 	});
 }
 
 var showEstimations = () => {
+	var name = $( "#judge" ).val();
+
 	$.get( `/home/ShowEstimations`, () => {
 		chat.server.send(name, "ShowEstimations");
 	});
@@ -77,4 +81,12 @@ var showPanel = () => {
 		$("#collapse-button").attr("class","glyphicon glyphicon-menu-down");
 	}
 	showingPanel = !showingPanel;
+}
+
+var removeAllJudges = () => {
+	var name = $( "#judge" ).val();
+
+	$.get( `/home/RemoveAllJudges`, () => {
+		chat.server.send(name, "RemoveAllJudges");
+	});
 }

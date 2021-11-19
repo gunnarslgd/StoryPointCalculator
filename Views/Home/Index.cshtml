@@ -23,20 +23,30 @@
                     <input type="text" class="form-control" id="judge" placeholder="your name">
                 </div>
                 <div class="col-md-6">
-                    <p>
-                        <button class="btn btn-primary btn-default" onclick="joinEstimation()">Join Estimation</button>
-                    </p>
+                    <button type="button" class="btn btn-labeled btn-primary" onclick="joinEstimation()">
+                        <span class="btn-label">
+                            <i class="glyphicon glyphicon-user"></i>
+                        </span>Join Estimation
+                    </button>
                 </div>
             </div>
         </div>
         <div class="col-md-2">
             <div class="pull-right">
-                <button class="btn btn-primary btn-default" onclick="showEstimations()">@(Model.Showing ? "Hide Votes" : "Show Votes")</button>
+                <button type="button" class="btn btn-labeled btn-default" onclick="showEstimations()">
+                    <span class="btn-label">
+                        <i class="glyphicon @(Model.Showing ? "glyphicon glyphicon-eye-close" : "glyphicon-eye-open") "></i>
+                    </span>@(Model.Showing ? "Hide Votes" : "Show Votes")
+                </button>
             </div>
         </div>
         <div class="col-md-2">
             <div class="pull-right">
-                <button class="btn btn-primary btn-danger" onclick="clearAllEstimations()">Clear Votes</button>
+                <button type="button" class="btn btn-labeled btn-danger" onclick="clearAllEstimations()">
+                    <span class="btn-label btn-primary btn-default">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                    </span>Clear Votes
+                </button>
             </div>
         </div>
         <div class="col-md-2">
@@ -66,7 +76,11 @@
             </div>
         </div>
         <div>
-            <button class="btn btn-primary btn-default" onclick="submit()">Submit</button>
+            <button type="button" class="btn btn-labeled btn-primary" onclick="submit()">
+                <span class="btn-label btn-primary btn-default">
+                    <i class="glyphicon glyphicon-thumbs-up"></i>
+                </span>Submit
+            </button>
         </div>
     </div>
 </div>
@@ -74,9 +88,16 @@
 <hr/>
 
 <div>
-    <div class="row panel-group">
+    <div class="row panel-group center">
         <div class="col-md-8">
             <h2>Estimates </h2>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-labeled btn-danger" onclick="removeAllJudges()">
+                <span class="btn-label">
+                    <i class="glyphicon glyphicon-trash"></i>
+                </span>Clear All
+            </button>
         </div>
     </div>
     @if (Model.PointsWithAverage.Count > 1)

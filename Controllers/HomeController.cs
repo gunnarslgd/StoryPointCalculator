@@ -38,6 +38,9 @@ namespace StoryPointCalculator.Controllers
 
 		public ActionResult NewPoint(string name, StoryPoint story)
 		{
+			story.Complexity = story.Complexity == 0 ? 1 : story.Complexity;
+			story.Effort = story.Effort == 0 ? 1 : story.Effort;
+			story.Uncertainty = story.Uncertainty == 0 ? 1 : story.Uncertainty;
 			Story.NewPoint(name, story);
 
 			return View("index", Story);
@@ -56,6 +59,13 @@ namespace StoryPointCalculator.Controllers
 			{
 				point.StartOver();
 			}
+
+			return View("index", Story);
+		}
+
+		public ActionResult RemoveAllJudges()
+		{
+			Story.Points.Clear();
 
 			return View("index", Story);
 		}

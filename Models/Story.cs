@@ -75,7 +75,6 @@ namespace StoryPointCalculator.Models
 			var avgComplexity = GetAverage(allComplexity);
 			var avgEffort = GetAverage(allEffort);
 			var avgUncertainty = GetAverage(allUncertainty);
-			var point = (avgComplexity * 30 + avgEffort * 30 + avgUncertainty * 20) / 100;
 
 			return new StoryPoint
 			{

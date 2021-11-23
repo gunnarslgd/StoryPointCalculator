@@ -54,6 +54,25 @@ var submit = () => {
 		chat.server.send(name, "NewPoint");
 	} );
 }
+ 
+var submitSilently = () => {
+	var name = $( "#judge" ).val();
+	var complexity = $( "#complexity" ).val();
+	var effort = $( "#effort" ).val();
+	var uncertainty = $( "#uncertainty" ).val();
+
+	if (name === "") {
+		showError("Please enter your name.");
+		return;
+	}
+
+	$.post( `/home/NewPointSilently?name=${name}`, { complexity, effort, uncertainty }, (data) => {
+		$("#complexity").prev().text(`Complexity ${data.Complexity}`);
+		$("#effort").prev().text(`Effort ${data.Effort}`);
+		$("#uncertainty").prev().text(`Uncertainty ${data.Uncertainty}`);
+		console.log(data);
+	} );
+}
 
 var clearAllEstimations = () => {
 	var name = $( "#judge" ).val();

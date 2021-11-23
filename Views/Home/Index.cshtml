@@ -63,15 +63,15 @@
             <div class="col-md-10">
                 <div class="slidecontainer">
                     <label>Complexity @(StoryPoint.GetScoreExplanation(Model.CurrentStoryPoint.Complexity))</label>
-                    <input type="range" class="slider" min="0" max="10" value="@Model.CurrentStoryPoint.Complexity" id="complexity">
+                    <input type="range" class="slider" min="0" max="10" value="@Model.CurrentStoryPoint.Complexity" onchange="submitSilently()" id="complexity">
                 </div>
                 <div class="slidecontainer">
                     <label>Effort @(StoryPoint.GetScoreExplanation(Model.CurrentStoryPoint.Effort))</label>
-                    <input type="range" class="slider" min="0" max="10" value="@Model.CurrentStoryPoint.Effort" id="effort">
+                    <input type="range" class="slider" min="0" max="10" value="@Model.CurrentStoryPoint.Effort" onchange="submitSilently()" id="effort">
                 </div>
                 <div class="slidecontainer">
                     <label>Uncertainty @(StoryPoint.GetScoreExplanation(Model.CurrentStoryPoint.Uncertainty))</label>
-                    <input type="range" class="slider" min="0" max="10" value="@Model.CurrentStoryPoint.Uncertainty" id="uncertainty">
+                    <input type="range" class="slider" min="0" max="10" value="@Model.CurrentStoryPoint.Uncertainty" onchange="submitSilently()" id="uncertainty">
                 </div>
             </div>
         </div>

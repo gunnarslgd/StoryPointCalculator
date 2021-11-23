@@ -46,6 +46,21 @@ namespace StoryPointCalculator.Controllers
 			return View("index", Story);
 		}
 
+		public ActionResult NewPointSilently(string name, StoryPoint story)
+		{
+			story.Complexity = story.Complexity == 0 ? 1 : story.Complexity;
+			story.Effort = story.Effort == 0 ? 1 : story.Effort;
+			story.Uncertainty = story.Uncertainty == 0 ? 1 : story.Uncertainty;
+			Story.NewPoint(name, story);
+
+			return Json(new
+			{
+				Complexity = StoryPoint.GetScoreExplanation(story.Complexity),
+				Effort = StoryPoint.GetScoreExplanation(story.Effort),
+				Uncertainty = StoryPoint.GetScoreExplanation(story.Uncertainty)
+			});
+		}
+
 		public ActionResult ShowEstimations()
 		{
 			Story.Showing = !Story.Showing;

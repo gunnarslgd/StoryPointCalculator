@@ -50,8 +50,8 @@ var submit = () => {
 		return;
 	}
 
-	$.post( `/home/NewPoint?name=${name}`, { complexity, effort, uncertainty }, () => {
-		chat.server.send(name, "NewPoint");
+	$.post( `/home/NewPoint?name=${name}`, { complexity, effort, uncertainty }, (story) => {
+		if (story.Showing) chat.server.send(name, "NewPoint");
 	} );
 }
  

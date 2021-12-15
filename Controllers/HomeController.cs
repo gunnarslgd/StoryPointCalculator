@@ -43,7 +43,7 @@ namespace StoryPointCalculator.Controllers
 			story.Uncertainty = story.Uncertainty == 0 ? 1 : story.Uncertainty;
 			Story.NewPoint(name, story);
 
-			return View("index", Story);
+			return Json(Story);
 		}
 
 		public ActionResult NewPointSilently(string name, StoryPoint story)

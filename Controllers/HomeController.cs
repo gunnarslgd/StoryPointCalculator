@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using StoryPointCalculator.Models;
@@ -9,22 +7,22 @@ namespace StoryPointCalculator.Controllers
 {
 	public class HomeController : Controller
 	{
-		private static readonly Story Story = new Story();
+		private readonly Story _story = Story.Current();
 
 		public ActionResult Index()
 		{
 			var cookie = Request.Cookies.Get("story-estimation");
 			if (cookie != null)
 			{
-				Story.Name = cookie.Value;
+				_story.Name = cookie.Value;
 			}
 			
-			return View(Story);
+			return View(_story);
 		}
 
 		public ActionResult JoinEstimation(string name)
 		{
-			Story.NewPoint(name, new StoryPoint());
+			_story.NewPoint(name, new StoryPoint());
 
 			Response.Cookies.Remove("story-estimation");
 			var cookie = new HttpCookie("story-estimation", name)
@@ -33,7 +31,7 @@ namespace StoryPointCalculator.Controllers
 			};
 			this.Response.Cookies.Add(cookie);
 
-			return View("index", Story);
+			return View("index", _story);
 		}
 
 		public ActionResult NewPoint(string name, StoryPoint story)
@@ -41,9 +39,9 @@ namespace StoryPointCalculator.Controllers
 			story.Complexity = story.Complexity == 0 ? 1 : story.Complexity;
 			story.Effort = story.Effort == 0 ? 1 : story.Effort;
 			story.Uncertainty = story.Uncertainty == 0 ? 1 : story.Uncertainty;
-			Story.NewPoint(name, story);
+			_story.NewPoint(name, story);
 
-			return Json(Story);
+			return Json(_story);
 		}
 
 		public ActionResult NewPointSilently(string name, StoryPoint story)
@@ -51,38 +49,39 @@ namespace StoryPointCalculator.Controllers
 			story.Complexity = story.Complexity == 0 ? 1 : story.Complexity;
 			story.Effort = story.Effort == 0 ? 1 : story.Effort;
 			story.Uncertainty = story.Uncertainty == 0 ? 1 : story.Uncertainty;
-			Story.NewPoint(name, story);
+			_story.NewPoint(name, story);
 
 			return Json(new
 			{
 				Complexity = StoryPoint.GetScoreExplanation(story.Complexity),
 				Effort = StoryPoint.GetScoreExplanation(story.Effort),
-				Uncertainty = StoryPoint.GetScoreExplanation(story.Uncertainty)
+				Uncertainty = StoryPoint.GetScoreExplanation(story.Uncertainty),
+				Point = story.Point
 			});
+		}
+
+		public ActionResult CurrentStory()
+		{
+			return Json(_story, JsonRequestBehavior.AllowGet);
 		}
 
 		public ActionResult ShowEstimations()
 		{
-			Story.Showing = !Story.Showing;
+			_story.Showing = !_story.Showing;
 
-			return View("index", Story);
+			return View("index", _story);
 		}
 
-		public ActionResult ClearAllEstimations()
+		public ActionResult StartNewVote()
 		{
-			foreach (var point in Story.Points.Values)
+			foreach (var point in _story.Points.Values)
 			{
 				point.StartOver();
 			}
 
-			return View("index", Story);
-		}
+			_story.Showing = false;
 
-		public ActionResult RemoveAllJudges()
-		{
-			Story.Points.Clear();
-
-			return View("index", Story);
+			return View("index", _story);
 		}
 	}
 }

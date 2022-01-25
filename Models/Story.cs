@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Dynamic;
 using System.Linq;
 
 namespace StoryPointCalculator.Models
@@ -9,9 +8,27 @@ namespace StoryPointCalculator.Models
 	{
 		public const int MaxDifference = 5;
 
-		public Story()
+		private Story()
 		{
 			Points = new Dictionary<string, StoryPoint>();
+		}
+
+		private static DateTime _expiryDateTime;
+		private static Story _current;
+		public static Story Current()
+		{
+			if (_expiryDateTime < DateTime.Now)
+			{
+				_current = null;
+			}
+
+			if (_current == null)
+			{
+				_current = new Story();
+				_expiryDateTime = DateTime.Now.AddHours(2);
+			}
+
+			return _current;
 		}
 
 		public Dictionary<string, StoryPoint> Points { get; }

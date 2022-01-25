@@ -33,19 +33,19 @@
         </div>
         <div class="col-md-2">
             <div class="pull-right">
-                <button type="button" class="btn btn-labeled btn-default" onclick="showEstimations()">
-                    <span class="btn-label">
-                        <i class="glyphicon @(Model.Showing ? "glyphicon glyphicon-eye-close" : "glyphicon-eye-open") "></i>
-                    </span>@(Model.Showing ? "Hide Votes" : "Show Votes")
+                <button type="button" class="btn btn-labeled btn-success" onclick="startNewVote()">
+                    <span class="btn-label btn-primary btn-default">
+                        <i class="glyphicon glyphicon-refresh"></i>
+                    </span>Start New Vote
                 </button>
             </div>
         </div>
         <div class="col-md-2">
             <div class="pull-right">
-                <button type="button" class="btn btn-labeled btn-danger" onclick="clearAllEstimations()">
-                    <span class="btn-label btn-primary btn-default">
-                        <i class="glyphicon glyphicon-refresh"></i>
-                    </span>Clear Votes
+                <button id="showHideButton" type="button" class="btn btn-labeled btn-default" onclick="showEstimations()">
+                    <span class="btn-label">
+                        <i class="glyphicon @(Model.Showing ? "glyphicon glyphicon-eye-close" : "glyphicon-eye-open") "></i>
+                    </span>@(Model.Showing ? "Hide Votes" : "Show Votes")
                 </button>
             </div>
         </div>
@@ -59,7 +59,7 @@
     </div>
 
     <div id="pointing-panel">
-        <div class="row">
+        <div class="row center">
             <div class="col-md-10">
                 <div class="slidecontainer">
                     <label>Complexity @(StoryPoint.GetScoreExplanation(Model.CurrentStoryPoint.Complexity))</label>
@@ -72,6 +72,11 @@
                 <div class="slidecontainer">
                     <label>Uncertainty @(StoryPoint.GetScoreExplanation(Model.CurrentStoryPoint.Uncertainty))</label>
                     <input type="range" class="slider" min="0" max="10" value="@Model.CurrentStoryPoint.Uncertainty" onchange="submitSilently()" id="uncertainty">
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="wrapper">
+                    <span id="myPoint" class="badge">@Model.CurrentStoryPoint.Point</span>
                 </div>
             </div>
         </div>
@@ -92,50 +97,7 @@
         <div class="col-md-8">
             <h2>Estimates </h2>
         </div>
-        <div class="col-md-4">
-            <button type="button" class="btn btn-labeled btn-danger" onclick="removeAllJudges()">
-                <span class="btn-label">
-                    <i class="glyphicon glyphicon-trash"></i>
-                </span>Clear All
-            </button>
-        </div>
+        <div class="col-md-4"></div>
     </div>
-    @if (Model.PointsWithAverage.Count > 1)
-    {
-        foreach (var pair in Model.PointsWithAverage)
-        {
-            <div class="row">
-                <div class="col-md-2">
-                    <h3 class="@(pair.Value.IsEmpty ? "bg-danger" : "bg-success")">@pair.Key</h3>
-                </div>
-
-                <div class="col-md-1">
-                    <div class="slidecontainer">
-                        <label>Point</label>
-                        <h2 class="score">@(Model.Showing ? pair.Value.Point.ToString() : "?")</h2>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="slidecontainer">
-                        <label>Complexity @(Model.Showing ? StoryPoint.GetScoreExplanation(pair.Value.Complexity) : "?")</label>
-                        <input type="range" class="slider" min="0" max="10" value="@(Model.Showing ? pair.Value.Complexity.ToString() : "0")" disabled>
-                    </div>
-                </div>
-
-                <div class="col-md-3">
-                    <div class="slidecontainer">
-                        <label>Effort @(Model.Showing ? StoryPoint.GetScoreExplanation(pair.Value.Effort) : "?")</label>
-                        <input type="range" class="slider" min="0" max="10" value="@(Model.Showing ? pair.Value.Effort.ToString() : "0")" disabled>
-                    </div>
-                </div>
-                <div class="col-md-3">
-                    <div class="slidecontainer">
-                        <label>Uncertainty @(Model.Showing ? StoryPoint.GetScoreExplanation(pair.Value.Uncertainty) : "?")</label>
-                        <input type="range" class="slider" min="0" max="10" value="@(Model.Showing ? pair.Value.Uncertainty.ToString() : "0")" disabled>
-                    </div>
-                </div>
-            </div>
-        }
-    }
+    <div id="votes"></div>
 </div>

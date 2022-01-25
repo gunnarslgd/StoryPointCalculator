@@ -1,8 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using StoryPointCalculator.Models;
 
 namespace StoryPointCalculator.Controllers
 {
@@ -10,7 +7,7 @@ namespace StoryPointCalculator.Controllers
 	{
 		public void Send(string name, string message)
 		{
-			Clients.All.addNewMessageToPage(name, message);
+			Clients.All.addNewMessageToPage(name, Story.Current());
 		}
 	}
 }

@@ -1,4 +1,5 @@
 ﻿var chat;
+var lastVersion = 0;
 var initialize = () => {
 	var match = document.cookie.match(new RegExp("(^| )" + "story-estimation" + "=([^;]+)"));
 	if (match) $("#judge").val(match[2]);
@@ -137,6 +138,8 @@ var getScoreExplanation = (score) => {
 }
 
 var renderVotes = (story) => {
+	lastVersion = story.Version;
+
 	if (story.PointsWithAverage.Count <= 1) return;
 
 	var html = "";
@@ -182,8 +185,15 @@ var renderVotes = (story) => {
 			</span>${story.Showing ? "Hide Votes" : "Show Votes"}`);
 }
 
+
 var loadCurrentStory = () => {
 	$.get( `/home/CurrentStory`, (story) => {
+		if (story.Version > 500) return;
+
+		setTimeout(loadCurrentStory, 5000);
+		
+		if (story.Version == lastVersion) return;
+
 		renderVotes(story);
 	});
 }

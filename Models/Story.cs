@@ -13,6 +13,8 @@ namespace StoryPointCalculator.Models
 			Points = new Dictionary<string, StoryPoint>();
 		}
 
+		public int Version { get; set; }
+
 		private static DateTime _expiryDateTime;
 		private static Story _current;
 		public static Story Current()
@@ -34,6 +36,12 @@ namespace StoryPointCalculator.Models
 		public Dictionary<string, StoryPoint> Points { get; }
 
 		public bool Showing { get; set; }
+
+		public void SetShowing(bool showing)
+		{
+			this.Showing = showing;
+			Version++;
+		}
 
 		public  List<KeyValuePair<string, StoryPoint>> PointsWithAverage
 		{
@@ -72,6 +80,7 @@ namespace StoryPointCalculator.Models
 		public void NewPoint(string name, StoryPoint point)
 		{
 			Points[name] = point;
+			Version++;
 		}
 
 		public StoryPoint FinalPoint()

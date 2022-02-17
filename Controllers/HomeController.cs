@@ -67,7 +67,7 @@ namespace StoryPointCalculator.Controllers
 
 		public ActionResult ShowEstimations()
 		{
-			_story.Showing = !_story.Showing;
+			_story.SetShowing(!_story.Showing);
 
 			return View("index", _story);
 		}
@@ -79,8 +79,7 @@ namespace StoryPointCalculator.Controllers
 				point.StartOver();
 			}
 
-			_story.Showing = false;
-
+			_story.SetShowing(false);
 			return View("index", _story);
 		}
 	}

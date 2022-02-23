@@ -49,7 +49,7 @@ namespace StoryPointCalculator.Controllers
 			story.Complexity = story.Complexity == 0 ? 1 : story.Complexity;
 			story.Effort = story.Effort == 0 ? 1 : story.Effort;
 			story.Uncertainty = story.Uncertainty == 0 ? 1 : story.Uncertainty;
-			_story.NewPoint(name, story);
+			//_story.NewPoint(name, story);
 
 			return Json(new
 			{
